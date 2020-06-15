@@ -19,6 +19,7 @@ import (
 
 	"github.com/ipfs/go-cid"
 	"github.com/multiformats/go-multihash"
+	"golang.org/x/xerrors"
 
 	cbg "github.com/whyrusleeping/cbor-gen"
 
@@ -215,7 +216,7 @@ func RecordTipsetStatePoints(ctx context.Context, api api.FullNode, pl *PointLis
 	var powerActorState power.State
 
 	if err := powerActorState.UnmarshalCBOR(bytes.NewReader(powerRaw)); err != nil {
-		return fmt.Errorf("failed to unmarshal as %q", tipset)
+		return fmt.Errorf("failed to unmarshal power actor state: %w", err)
 	}
 
 	s := &apiIpldStore{ctx, api}
